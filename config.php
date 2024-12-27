@@ -2,11 +2,11 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-$database = "database";
+$database = "tdd_project";
 
 try
 {
-    $conn = new PDO('mysql:host=localhost;dbname=database','root','');
+    $conn = new PDO('mysql:host=localhost;dbname=tdd_project','root','');
 
 }
 catch(Exception $e)
