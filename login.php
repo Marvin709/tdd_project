@@ -17,7 +17,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
     if ($user && password_verify($password, $user['mot_de_passe'])) {
         session_start();
         $_SESSION['user_id'] = $user['id'];
-        header("Location: index.php");
+        header("Location: tableau_de_bord.php");
         exit();
     } else {
         $message = 'Mauvais identifiants';

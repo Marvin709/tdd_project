@@ -18,7 +18,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
 
     if ($result) {
         $message = 'Inscription réussie!';
-        
+        header('Location: login.php');
     } else {
         $message = 'Erreur lors de l\'inscription.';
     }
