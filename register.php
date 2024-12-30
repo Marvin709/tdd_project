@@ -8,11 +8,11 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
     $username = $_POST['username'];
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
-    $sql = "INSERT INTO users ( username, password) VALUES ( :username, :password)";
+    $sql = "INSERT INTO utilisateurs ( nom_d_utilisateur, mot_de_passe) VALUES ( :nom_d_utilisateur, :mot_de_passe)";
     $stmt = $pdo->prepare($sql);
     $result = $stmt->execute([
-        'username' => $username,
-        'password' => $password
+        'nom_d_utilisateur' => $username,
+        'mot_de_passe' => $password
     ]);
     
 
