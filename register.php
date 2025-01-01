@@ -1,28 +1,23 @@
 <?php
 
 include("config.php");
-
+include("registration.php");
 $message = '';
 
-if (isset($_POST['username']) && isset($_POST['password'])) {
-    $username = $_POST['username'];
-    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+    if (isset($_POST['username']) && isset($_POST['password'])) {
+        $username = $_POST['username'];
+        $password = $_POST['password'];
 
-    $sql = "INSERT INTO utilisateurs ( nom_d_utilisateur, mot_de_passe) VALUES ( :nom_d_utilisateur, :mot_de_passe)";
-    $stmt = $pdo->prepare($sql);
-    $result = $stmt->execute([
-        'nom_d_utilisateur' => $username,
-        'mot_de_passe' => $password
-    ]);
-    
+        $registration = new registration($pdo);
 
-    if ($result) {
-        $message = 'Inscription réussie!';
-        header('Location: login.php');
-    } else {
-        $message = 'Erreur lors de l\'inscription.';
+        if ($registration->registerUser($username, $password)) {
+            $message = 'Inscription réussie!';
+           // header('Location: login.php');
+            exit();
+        } else {
+            $message = 'Erreur lors de l\'inscription.';
+        }
     }
-}
 ?>
 
 <!DOCTYPE html>
