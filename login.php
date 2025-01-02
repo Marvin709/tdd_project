@@ -1,6 +1,7 @@
 <?php
-
+session_start();
 include("config.php");
+include("authentification.php");
 
 
 $message = '';
@@ -9,21 +10,20 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    $sql = "SELECT * FROM utilisateurs WHERE nom_d_utilisateur = :nom_d_utilisateur";
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute(['nom_d_utilisateur' => $username]);
-    $user = $stmt->fetch();
-
-    if ($user && password_verify($password, $user['mot_de_passe'])) {
-        session_start();
-        $_SESSION['user_id'] = $user['id'];
+    $login =new Authentification($pdo);
+    if($login->loginuser($username,$password)){
+        
+        $_SESSION['user_id'] = $login->getUserId[$username];
         header("Location: tableau_de_bord.php");
         exit();
     } else {
         $message = 'Mauvais identifiants';
     }
 }
-?>
+    ?>
+
+    
+   
 
 <!DOCTYPE html>
 <html lang="fr">
