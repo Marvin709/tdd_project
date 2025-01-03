@@ -4,15 +4,17 @@ include("config.php");
 include("registration.php");
 $message = '';
 
-    if (isset($_POST['username']) && isset($_POST['password'])) {
+    if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['email'])) {
         $username = $_POST['username'];
         $password = $_POST['password'];
+        $email = $_POST['email'];
 
-        $registration = new registration($pdo);
 
-        if ($registration->registerUser($username, $password)) {
+        $registration = new Registration($pdo);
+
+        if ($registration->registerUser($username, $password, $email)) {
             $message = 'Inscription réussie!';
-           // header('Location: login.php');
+            header('Location: login.php');
             exit();
         } else {
             $message = 'Erreur lors de l\'inscription.';
@@ -42,12 +44,11 @@ $message = '';
             <label for="username">Nom d'utilisateur:</label>
             <input type="text" id="username" name="username">
         
-
-        
             <label for="password">Mot de passe:</label>
             <input type="password" id="password" name="password">
         
-
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email">
         
             <input type="submit" value="S'inscrire">
         
