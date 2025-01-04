@@ -2,9 +2,22 @@
 require "./register.php";
 require "./authentification.php";
 require "./logout.php";
+require "./update.php";
 use PHPUnit\Framework\TestCase ;
 
+
     class PremierTest extends TestCase{
+        protected function void(): void
+        {
+            session_start();
+            $_SESSION['username'] = 'testuser';
+            $_SESSION['user_id'] = 1;
+    
+            $this->utilisateurs = [
+                1 => ['email' => 'oldemail@example.com', 'nom_d_utilisateur' => 'Old Username']
+            ];
+        }
+    
 
         public function test_la_creation_reussie_d_un_compte(): void 
          {  
@@ -46,32 +59,54 @@ use PHPUnit\Framework\TestCase ;
             $this->assertTrue($result, "L'utilisateur devrait être authentifié.");
 
         }
-     
-    protected function setUp(): void
+     public function test_de_deconnexion():void{
+    function setUp(): void
     {
         
-        session_start();
+        //session_start();
         $_SESSION['username'] = 'testuser';
     }
 
-    public function testUserIsLoggedIn()
+     function testUserIsLoggedIn()
     {
         $this->assertTrue(isset($_SESSION['username']));
         $this->assertEquals('testuser', $_SESSION['username']);
     }
-
-    public function testLogout()
-    {
-        
-        $this->assertTrue(isset($_SESSION['username']));
-    }
-
-    protected function tearDown(): void
+     function tearDown(): void
     {
         session_unset();
         session_destroy();
     }
+     function testLogout()
+    {
+        
+        $this->assertTrue(isset($_SESSION['username']));
+    }
 }
+    public function test_de_modification_des_informations():void{
+        function testProfileUpdate()
+    {
+        $_POST['email'] = 'newemail@example.com';
+        $_POST['username'] = 'New username';
+        ob_start();
+        include('update.php');
+        ob_end_clean();
+
+        $this->assertEquals('newemail@example.com', $this->utilisateurs[1]['email']);
+        $this->assertEquals('New username', $this->utilisateurs[1]['nom_d_utilisateur']);
+    }
+
+    
+
+     function getUserById($id)
+    {
+        return $this->utilisateurs[$id];
+    }
+
+}
+    }
+    
+      
 ?>
 
                 
